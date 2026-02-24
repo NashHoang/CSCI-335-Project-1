@@ -37,3 +37,76 @@ To run with a given file that is redirected to standard input:
 ```bash
 ./test_points2d < test_input_file.txt
 ```
+# Overview of Big 5 Implementation 
+
+### 1. Default Constructor
+
+**Purpose:**
+Initializes an empty object.
+
+**Implementation details:**
+* Prevents undefined behavior from uninitialized pointer
+
+### 2. Destructor
+
+**Purpose:**
+Frees dynamically allocated memory when the object is destroyed.
+
+**Implementation details:**
+* This prevents memory leaks.
+
+### 3. Copy Constructor
+
+**Purpose:**
+Creates a new object as a deep copy of another object.
+
+**Implementation details:**
+* Allocates new memory
+* Copies each point individually
+
+### 4. Copy Assignment Operator
+
+**Purpose:**
+Assigns one object to another after both already exist.
+
+**Implementation details:**
+* Handle self-assignment safely
+* Free old memory
+* Allocate new memory
+* Copy contents
+
+### 5. Move Constructor
+
+**Purpose:**
+Transfers ownership of memory from one object to another without copying.
+
+**Implementation details:**
+* The source object becomes empty and safe.
+
+### 6. Move Assignment Operator
+
+**Purpose:**
+Transfers ownership during assignment.
+
+**Implementation details:**
+Prevents memory leaks and double deletion.
+
+### Stream Insertion Operator (<<)
+
+**Purpose:**
+Prints points in format:
+
+### Stream Extraction Operator (>>)
+
+**Purpose:**
+Reads input in format: Allocates memory dynamically based on input size.
+
+### Operator []
+
+**Purpose:**
+Provides indexed access to points. Includes bounds checking.
+
+### Operator +
+
+**Purpose:**
+Adds two Points2D objects element-wise. If sizes differ, remaining elements are copied from larger object.
