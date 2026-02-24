@@ -140,7 +140,6 @@ class Points2D {
         result.sequence_ = new std::array<Object,2>[max_size];
 
         size_t i = 0;
-
         for (; i < min_size; ++i) {
 
             result.sequence_[i][0] =
@@ -152,13 +151,11 @@ class Points2D {
 
         if (c1.size_ > c2.size_) {
 
-            for (; i < max_size; ++i)
-                result.sequence_[i] = c1.sequence_[i];
+            for (; i < max_size; ++i) result.sequence_[i] = c1.sequence_[i];
         }
         else {
 
-            for (; i < max_size; ++i)
-                result.sequence_[i] = c2.sequence_[i];
+            for (; i < max_size; ++i) result.sequence_[i] = c2.sequence_[i];
         }
 
         return result;
@@ -188,37 +185,18 @@ class Points2D {
     friend std::istream &operator>>(std::istream &in, Points2D &some_points) {
         size_t n;
         in >> n;
+        some_points.size_ = n;
 
         delete[] some_points.sequence_;
-        some_points.sequence_ = nullptr;
-        some_points.size_ = 0;
+        some_points.sequence_ = new std::array<Object, 2>[some_points.size_];
 
-        if (!in || n == 0)
-            return in;
-
-        std::array<Object,2>* temp = new std::array<Object,2>[n];
-
-        size_t count = 0;
-
-        for (; count < n; ++count)
-        {
-            if (!(in >> temp[count][0] >> temp[count][1]))
-                break;
+        for (size_t i = 0; i < some_points.size_; ++i){
+            if (!(in >> some_points.sequence_[i][0] >> some_points.sequence_[i][1]))
+            {
+                some_points.sequence_[i][0] = Object{};
+                some_points.sequence_[i][1] = Object{};
+            }
         }
-
-        if (count == 0)
-        {
-            delete[] temp;
-            return in;
-        }
-
-        some_points.sequence_ = new std::array<Object,2>[count];
-        some_points.size_ = count;
-
-        for (size_t i = 0; i < count; ++i)
-            some_points.sequence_[i] = temp[i];
-
-        delete[] temp;
 
         return in;
     }
