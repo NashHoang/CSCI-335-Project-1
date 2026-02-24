@@ -177,9 +177,6 @@ class Points2D {
             if (i < some_points.size_ - 1)
                 out << " ";
         }
-
-        out << std::endl;
-
         return out;
     }
 
@@ -190,21 +187,35 @@ class Points2D {
         in >> n;
 
         delete[] some_points.sequence_;
+        some_points.sequence_ = nullptr;
+        some_points.size_ = 0;
 
-        some_points.size_ = n;
+        if (!in || n == 0)
+            return in;
 
-        if (n == 0) {
-            some_points.sequence_ = nullptr;
+        std::array<Object,2>* temp = new std::array<Object,2>[n];
+
+        size_t count = 0;
+
+        for (; count < n; ++count)
+        {
+            if (!(in >> temp[count][0] >> temp[count][1]))
+                break;
+        }
+
+        if (count == 0)
+        {
+            delete[] temp;
             return in;
         }
 
-        some_points.sequence_ = new std::array<Object,2>[n];
+        some_points.sequence_ = new std::array<Object,2>[count];
+        some_points.size_ = count;
 
-        for (size_t i = 0; i < n; ++i) {
+        for (size_t i = 0; i < count; ++i)
+            some_points.sequence_[i] = temp[i];
 
-            in >> some_points.sequence_[i][0]
-               >> some_points.sequence_[i][1];
-        }
+        delete[] temp;
 
         return in;
     }
