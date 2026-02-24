@@ -166,8 +166,7 @@ class Points2D {
 
     // Overloading the << operator.
     friend std::ostream &operator<<(std::ostream &out, const Points2D &some_points) {
-        for (size_t i = 0; i < some_points.size_; ++i) {
-
+        for (size_t i = 0; i < some_points.size_; ++i){
             out << "("
                 << some_points.sequence_[i][0]
                 << ", "
@@ -175,12 +174,12 @@ class Points2D {
                 << ")";
 
             if (i < some_points.size_ - 1)
+            {
                 out << " ";
+            }
         }
 
-        if (some_points.size_ - 1){
-            out << " ";
-        }
+        out << std::endl;
         return out;
     }
 
