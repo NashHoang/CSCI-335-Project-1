@@ -177,6 +177,10 @@ class Points2D {
             if (i < some_points.size_ - 1)
                 out << " ";
         }
+
+        if (some_points.size_ - 1){
+            out << " ";
+        }
         return out;
     }
 
