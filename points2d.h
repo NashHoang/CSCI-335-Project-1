@@ -1,4 +1,4 @@
-// --> YOUR NAME here
+// Nash Hoang
 // Few comments describing the class Points2D
 
 #ifndef CSCI335_HOMEWORK1_POINTS2D_H_
@@ -61,10 +61,14 @@ class Points2D {
 
             if (size_ == 0) {
                 sequence_ = nullptr;
-            } else {
+            }
+            else {
                 sequence_ = new std::array<Object,2>[size_];
-                for (size_t i = 0; i < size_; ++i)
-                    sequence_[i] = rhs.sequence_[i];
+
+                for (size_t i = 0; i < size_; ++i) {
+                    sequence_[i][0] = rhs.sequence_[i][0];
+                    sequence_[i][1] = rhs.sequence_[i][1];
+                }
             }
         }
 
@@ -84,16 +88,9 @@ class Points2D {
     Points2D& operator=(Points2D &&rhs) {
 
         if (this != &rhs) {
-
-            delete[] sequence_;
-
-            sequence_ = rhs.sequence_;
-            size_ = rhs.size_;
-
-            rhs.sequence_ = nullptr;
-            rhs.size_ = 0;
+            std::swap(sequence_, rhs.sequence_);
+            std::swap(size_, rhs.size_);
         }
-
         return *this;
     }
 
@@ -163,16 +160,21 @@ class Points2D {
 
     // Overloading the << operator.
     friend std::ostream &operator<<(std::ostream &out, const Points2D &some_points) {
-        for (size_t i = 0; i < some_points.size_; ++i){
-            out << "("
-                << some_points.sequence_[i][0]
-                << ", "
-                << some_points.sequence_[i][1]
-                << ")";
+        if (some_points.size_ == 0){
+            out << "()";
+        }
+        else {
+            for (size_t i = 0; i < some_points.size_; ++i){
+                out << "("
+                    << some_points.sequence_[i][0]
+                    << ", "
+                    << some_points.sequence_[i][1]
+                    << ")";
 
-            if (i < some_points.size_ - 1)
-            {
-                out << " ";
+                if (i < some_points.size_ - 1)
+                {
+                    out << " ";
+                }
             }
         }
 
@@ -183,18 +185,21 @@ class Points2D {
     // Overloading the >> operator.
     // Read a chain from an input stream (e.g., standard input).
     friend std::istream &operator>>(std::istream &in, Points2D &some_points) {
-        size_t n;
-        in >> n;
-        some_points.size_ = n;
+        size_t size;
+        in >> size;
 
         delete[] some_points.sequence_;
-        some_points.sequence_ = new std::array<Object, 2>[some_points.size_];
 
-        for (size_t i = 0; i < some_points.size_; ++i){
-            if (!(in >> some_points.sequence_[i][0] >> some_points.sequence_[i][1]))
-            {
-                some_points.sequence_[i][0] = Object{};
-                some_points.sequence_[i][1] = Object{};
+        some_points.size_ = size;
+
+        if (size == 0) {
+            some_points.sequence_ = nullptr;
+        }
+        else {
+            some_points.sequence_ = new std::array<Object,2>[size];
+
+            for (size_t i = 0; i < size; ++i) {
+                in >> some_points.sequence_[i][0] >> some_points.sequence_[i][1];
             }
         }
 
